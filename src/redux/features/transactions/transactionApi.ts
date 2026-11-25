@@ -1,4 +1,4 @@
-import { baseApi } from "../services/api";
+import { baseApi } from "../../services/api";
 import type { ITransaction, ApiResponse, PaginatedResponse } from "@/types";
 
 export const transactionApi = baseApi.injectEndpoints({

@@ -1,4 +1,4 @@
-import { baseApi } from "../services/api";
+import { baseApi } from "../../services/api";
 import type { IDepositRequest, IWithdrawalRequest, ApiResponse, PaginatedResponse } from "@/types";
 
 export const depositApi = baseApi.injectEndpoints({

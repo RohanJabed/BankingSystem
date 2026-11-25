@@ -2,6 +2,8 @@ import { auth } from "@/lib/auth/config";
 import { redirect } from "next/navigation";
 import { DashboardLayoutClient } from "../admin/DashboardLayoutClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function CustomerLayout({ children }: { children: React.ReactNode }) {
   const session = await auth();
   if (!session?.user || session.user.role !== "CUSTOMER") redirect("/login");

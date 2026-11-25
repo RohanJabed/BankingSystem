@@ -1,4 +1,4 @@
-import { baseApi } from "../services/api";
+import { baseApi } from "../../services/api";
 import type { INotification, ApiResponse } from "@/types";
 
 export const notificationApi = baseApi.injectEndpoints({

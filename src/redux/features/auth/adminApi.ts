@@ -1,4 +1,4 @@
-import { baseApi } from "../services/api";
+import { baseApi } from "../../services/api";
 import type { IUser, ApiResponse, PaginatedResponse, DashboardStats } from "@/types";
 
 export const adminApi = baseApi.injectEndpoints({
