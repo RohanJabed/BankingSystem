@@ -1,36 +1,136 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🏦 Banking System
 
-## Getting Started
+A full-stack banking management system built with **Next.js 16**, **TypeScript**, **MongoDB**, and **NextAuth v5**. Supports three roles: Admin, Staff, and Customer.
 
-First, run the development server:
+---
+
+## 🚀 Tech Stack
+
+- **Frontend:** Next.js 16, TypeScript, Tailwind CSS v4, Redux Toolkit, Recharts
+- **Backend:** Next.js API Routes, MongoDB, Mongoose
+- **Auth:** NextAuth v5 (JWT)
+- **Validation:** Zod, React Hook Form
+- **UI:** Radix UI, Lucide React, Sonner
+
+---
+
+## ⚙️ Getting Started
+
+### 1. Clone & Install
+
+```bash
+git clone https://github.com/RohanJabed/BankingSystem.git
+cd BankingSystem
+npm install --legacy-peer-deps
+```
+
+### 2. Environment Variables
+
+Create a `.env.local` file:
+
+```env
+MONGODB_URI=your_mongodb_connection_string
+NEXTAUTH_SECRET=your_secret_key_min_32_chars
+NEXTAUTH_URL=http://localhost:3000
+```
+
+### 3. Seed the Database
+
+```bash
+npm run seed
+```
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔐 Demo Credentials
 
-## Learn More
+| Role     | Email               | Password      |
+|----------|---------------------|---------------|
+| Admin    | admin@bank.com      | Admin@123     |
+| Staff    | staff@bank.com      | Staff@123     |
+| Customer | alice@example.com   | Customer@123  |
+| Customer | bob@example.com     | Customer@123  |
+| Customer | carol@example.com   | Customer@123  |
 
-To learn more about Next.js, take a look at the following resources:
+> **Transaction PIN:** `1234` (for all demo customers)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Features
 
-## Deploy on Vercel
+### Customer
+- Dashboard with account overview
+- Multiple accounts (Savings, Current, Business)
+- Fund transfers with PIN verification
+- Deposit & withdrawal requests
+- Transaction history with filters
+- Loan application & repayment
+- Notifications
+- Account statements (CSV export)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Staff
+- Customer registration & management
+- Transaction monitoring
+- Loan application review
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Admin
+- Full dashboard with analytics
+- Customer & account management
+- Deposit & withdrawal approvals
+- Loan management
+- Suspicious transaction monitoring
+- Banking settings configuration
+
+---
+
+## 🧪 Running Tests
+
+```bash
+npm run test
+```
+
+---
+
+## 📂 Project Structure
+
+```
+src/
+├── app/
+│   ├── (auth)/          # Login, Register
+│   ├── (dashboard)/     # Admin, Staff, Customer dashboards
+│   ├── (public)/        # Landing, About, Services
+│   └── api/             # All API routes
+├── components/          # Shared UI components
+├── lib/                 # Auth, DB, utils, validations
+├── models/              # Mongoose models
+├── redux/               # Redux store & RTK Query
+└── types/               # TypeScript types
+scripts/
+└── seed.ts              # Database seed script
+```
+
+---
+
+## 🔒 Security Features
+
+- Argon2 password hashing
+- Transaction PIN with lockout (5 failed attempts → 30 min lock)
+- JWT session management
+- Role-based access control (ADMIN / STAFF / CUSTOMER)
+- Suspicious transaction detection & flagging
+- Idempotency keys for transfers
+- Atomic MongoDB transactions
+
+---
+
+## 📜 License
+
+MIT
