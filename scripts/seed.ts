@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import argon2 from "argon2";
+import bcrypt from "bcryptjs";
 import { v4 as uuidv4 } from "uuid";
 
 const MONGODB_URI =
@@ -156,10 +156,10 @@ async function seed() {
   console.log("🗑️  Cleared existing data");
 
   const [adminPass, staffPass, custPass, pin] = await Promise.all([
-    argon2.hash("Admin@123"),
-    argon2.hash("Staff@123"),
-    argon2.hash("Customer@123"),
-    argon2.hash("1234"),
+    bcrypt.hash("Admin@123", 12),
+    bcrypt.hash("Staff@123", 12),
+    bcrypt.hash("Customer@123", 12),
+    bcrypt.hash("1234", 12),
   ]);
 
   const [admin, staff, c1, c2, c3] = await User.insertMany([

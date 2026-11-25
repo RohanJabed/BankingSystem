@@ -1,17 +1,17 @@
-import argon2 from "argon2";
+import bcrypt from "bcryptjs";
 
 export async function hashPassword(password: string): Promise<string> {
-  return argon2.hash(password);
+  return bcrypt.hash(password, 12);
 }
 
 export async function verifyPassword(password: string, hash: string): Promise<boolean> {
-  return argon2.verify(hash, password);
+  return bcrypt.compare(password, hash);
 }
 
 export async function hashPin(pin: string): Promise<string> {
-  return argon2.hash(pin);
+  return bcrypt.hash(pin, 12);
 }
 
 export async function verifyPin(pin: string, hash: string): Promise<boolean> {
-  return argon2.verify(hash, pin);
+  return bcrypt.compare(pin, hash);
 }
