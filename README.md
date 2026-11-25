@@ -52,15 +52,28 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## 🔐 Demo Credentials
 
-| Role     | Email               | Password      |
-|----------|---------------------|---------------|
-| Admin    | admin@bank.com      | Admin@123     |
-| Staff    | staff@bank.com      | Staff@123     |
-| Customer | alice@example.com   | Customer@123  |
-| Customer | bob@example.com     | Customer@123  |
-| Customer | carol@example.com   | Customer@123  |
+### Admin
+| Field    | Value            |
+|----------|------------------|
+| URL      | /admin           |
+| Email    | admin@bank.com   |
+| Password | Admin@123        |
 
-> **Transaction PIN:** `1234` (for all demo customers)
+### Staff
+| Field    | Value            |
+|----------|------------------|
+| URL      | /staff           |
+| Email    | staff@bank.com   |
+| Password | Staff@123        |
+
+### Customers
+| Name  | Email               | Password     |
+|-------|---------------------|--------------|
+| Alice | alice@example.com   | Customer@123 |
+| Bob   | bob@example.com     | Customer@123 |
+| Carol | carol@example.com   | Customer@123 |
+
+> **URL:** `/customer` · **Transaction PIN:** `1234` (for all demo customers)
 
 ---
 
