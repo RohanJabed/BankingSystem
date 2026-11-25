@@ -2,8 +2,7 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { connectDB } from "@/lib/db/connect";
 import User from "@/models/User";
-import { verifyPassword } from "@/lib/auth/password";
-import { loginSchema } from "@/lib/validations/auth";
+import bcrypt from "bcryptjs";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -18,7 +17,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const user = await User.findOne({ email: email.toLowerCase().trim() }).select("+password");
           if (!user || !user.isActive || user.isBlocked) return null;
 
-          const valid = await verifyPassword(password, user.password);
+          const valid = await bcrypt.compare(password, user.password);
           if (!valid) return null;
 
           return {
