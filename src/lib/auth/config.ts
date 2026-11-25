@@ -9,27 +9,30 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       async authorize(credentials) {
-        const parsed = loginSchema.safeParse({
-          email: credentials?.email,
-          password: credentials?.password,
-        });
-        if (!parsed.success) return null;
+        try {
+          const email = credentials?.email as string;
+          const password = credentials?.password as string;
+          if (!email || !password) return null;
 
-        await connectDB();
-        const user = await User.findOne({ email: parsed.data.email }).select("+password");
-        if (!user || !user.isActive || user.isBlocked) return null;
+          await connectDB();
+          const user = await User.findOne({ email: email.toLowerCase().trim() }).select("+password");
+          if (!user || !user.isActive || user.isBlocked) return null;
 
-        const valid = await verifyPassword(parsed.data.password, user.password);
-        if (!valid) return null;
+          const valid = await verifyPassword(password, user.password);
+          if (!valid) return null;
 
-        return {
-          id: user._id.toString(),
-          email: user.email,
-          name: `${user.firstName} ${user.lastName}`,
-          role: user.role,
-          firstName: user.firstName,
-          lastName: user.lastName,
-        };
+          return {
+            id: user._id.toString(),
+            email: user.email,
+            name: `${user.firstName} ${user.lastName}`,
+            role: user.role,
+            firstName: user.firstName,
+            lastName: user.lastName,
+          };
+        } catch (err) {
+          console.error("[authorize error]", err);
+          return null;
+        }
       },
     }),
   ],
