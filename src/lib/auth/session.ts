@@ -1,24 +1,21 @@
-import { auth } from "@/lib/auth/config";
+import { getServerSession as nextAuthGetServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/config";
 import { NextResponse } from "next/server";
 import type { Session } from "next-auth";
 
 export async function getServerSession(): Promise<Session | null> {
-  return auth();
+  return nextAuthGetServerSession(authOptions);
 }
 
 export async function requireAuth(): Promise<Session> {
-  const session = await auth();
-  if (!session?.user) {
-    throw new Error("UNAUTHORIZED");
-  }
+  const session = await getServerSession();
+  if (!session?.user) throw new Error("UNAUTHORIZED");
   return session;
 }
 
 export async function requireRole(roles: string[]): Promise<Session> {
   const session = await requireAuth();
-  if (!roles.includes(session.user.role as string)) {
-    throw new Error("FORBIDDEN");
-  }
+  if (!roles.includes(session.user.role as string)) throw new Error("FORBIDDEN");
   return session;
 }
 

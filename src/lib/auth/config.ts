@@ -1,27 +1,26 @@
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
+import NextAuth, { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { connectDB } from "@/lib/db/connect";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
-export const { handlers, auth, signIn, signOut } = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
-    Credentials({
+    CredentialsProvider({
+      name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         try {
-          const email = credentials?.email as string;
-          const password = credentials?.password as string;
-          if (!email || !password) return null;
+          if (!credentials?.email || !credentials?.password) return null;
 
           await connectDB();
-          const user = await User.findOne({ email: email.toLowerCase().trim() });
+          const user = await User.findOne({ email: credentials.email.toLowerCase().trim() });
           if (!user || !user.isActive || user.isBlocked) return null;
 
-          const valid = await bcrypt.compare(password, user.password);
+          const valid = await bcrypt.compare(credentials.password, user.password);
           if (!valid) return null;
 
           return {
@@ -65,5 +64,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   session: { strategy: "jwt" },
   secret: process.env.NEXTAUTH_SECRET,
-  trustHost: true,
-});
+};
+
+export default NextAuth(authOptions);
