@@ -10,7 +10,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     const { id } = await params;
     await connectDB();
 
-    const user = await User.findById(id).lean();
+    const user = await User.findById(id).select("-password -transactionPin").lean();
     if (!user) return NextResponse.json({ success: false, error: "Customer not found" }, { status: 404 });
 
     const accounts = await Account.find({ userId: id }).lean();
@@ -33,7 +33,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       if (key in body) update[key] = body[key];
     }
 
-    const user = await User.findByIdAndUpdate(id, update, { new: true });
+    const user = await User.findByIdAndUpdate(id, update, { new: true }).select("-password -transactionPin");
     if (!user) return NextResponse.json({ success: false, error: "Customer not found" }, { status: 404 });
 
     return NextResponse.json({ success: true, data: user });

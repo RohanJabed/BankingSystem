@@ -14,7 +14,7 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     }
 
     await connectDB();
-    const user = await User.findById(id).lean();
+    const user = await User.findById(id).select("-password -transactionPin").lean();
     if (!user) return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
 
     const accounts = await Account.find({ userId: id }).lean();
@@ -37,14 +37,14 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
       if (session.user.id !== id) return NextResponse.json({ success: false, error: "Forbidden" }, { status: 403 });
       // Customers can only update their own profile fields
       const { firstName, lastName, phone, address } = body;
-      const user = await User.findByIdAndUpdate(id, { firstName, lastName, phone, address }, { new: true });
+      const user = await User.findByIdAndUpdate(id, { firstName, lastName, phone, address }, { new: true }).select("-password -transactionPin");
       return NextResponse.json({ success: true, data: user });
     }
 
     // Admin/Staff can update more fields
     await requireRole(["ADMIN", "STAFF"]);
     const { isActive, isBlocked, ...rest } = body;
-    const user = await User.findByIdAndUpdate(id, { isActive, isBlocked, ...rest }, { new: true });
+    const user = await User.findByIdAndUpdate(id, { isActive, isBlocked, ...rest }, { new: true }).select("-password -transactionPin");
     if (!user) return NextResponse.json({ success: false, error: "User not found" }, { status: 404 });
 
     return NextResponse.json({ success: true, data: user });

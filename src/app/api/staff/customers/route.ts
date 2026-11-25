@@ -26,6 +26,7 @@ export async function GET(req: NextRequest) {
 
     const total = await User.countDocuments(filter);
     const customers = await User.find(filter)
+      .select("-password -transactionPin")
       .sort({ createdAt: -1 })
       .skip((page - 1) * limit)
       .limit(limit)
