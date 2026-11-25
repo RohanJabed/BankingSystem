@@ -73,9 +73,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     const updatedSchedule = loan.repaymentSchedule.map((inst) => {
       if (!inst.isPaid && remaining >= inst.amount) {
         remaining -= inst.amount;
-        return { ...inst.toObject(), isPaid: true, paidAt: new Date() };
+        return { ...inst, isPaid: true, paidAt: new Date() };
       }
-      return inst.toObject();
+      return { ...inst };
     });
 
     const dbSession = await mongoose.startSession();
